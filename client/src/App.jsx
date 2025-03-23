@@ -8,6 +8,7 @@ import Appointement from './components/Appointement'
 import Team from './components/Team'
 import About from './components/About'
 import Service from './components/Service'
+import TeamMemberDetails from './components/members/TeamMemberDetails'
 
 export default function App() {
 
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />}/>
         <Route path="/appointment" element={<Appointement />}/>
         <Route path="/team" element={<Team />}/>
+        <Route path="/team/:id" element={<TeamMemberDetails />}/>
         <Route path="/about" element={<About />}/>
         <Route path="/service" element={<Service />}/>
       </Routes>
