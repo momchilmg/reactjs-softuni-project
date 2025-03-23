@@ -1,10 +1,29 @@
 import { Link } from "react-router"
 import Hero from "./bars/HeroBar"
 import TeamMember from "./members/TeamMember"
+import { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 export default function Team() {
+    const [isPending, setIsPending] = useState(true)
+    const [members, setMembers] = useState([])
+
+    useEffect(() => {
+        fetch('http://localhost:3030/jsonstore/doc')
+            .then(response => response.json())
+            .then(data => {
+                const result = Object.values(data)
+                setMembers(result)
+                setIsPending(false)
+            })
+            .catch(error => {
+                console.log(error.message)
+            });
+    }, []);
+    
     return (
         <>
+            {isPending && <Spinner />}
             <Hero name="Our Dentist" url="team" />
             <div className="container-fluid py-5">
             <div className="container">
@@ -16,11 +35,7 @@ export default function Team() {
                             <Link to="/appointment" className="btn btn-primary py-3 px-5">Appointment</Link>
                         </div>
                     </div>
-                    <TeamMember name="Dr. John Doe 1" work="Implant Surgeon" img="team-1.jpg" />
-                    <TeamMember name="Dr. John Doe 2" work="Implant Surgeon" img="team-2.jpg" />
-                    <TeamMember name="Dr. John Doe 3" work="Implant Surgeon" img="team-3.jpg" />
-                    <TeamMember name="Dr. John Doe 4" work="Implant Surgeon" img="team-4.jpg" />
-                    <TeamMember name="Dr. John Doe 5" work="Implant Surgeon" img="team-5.jpg" />
+                    {members.map(member => <TeamMember key={member.id} name={member.name} work={member.work} img={member.img} id={member.id} />)}
                 </div>
             </div>
         </div>
