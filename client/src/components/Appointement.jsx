@@ -1,6 +1,9 @@
+import { useParams } from "react-router"
 import Hero from "./bars/HeroBar"
 
 export default function Appointement() {
+    let params = useParams()
+    console.log(params.type)
     return (
         <>
             <Hero name="Appointment" url="appointment" />
@@ -19,11 +22,11 @@ export default function Appointement() {
                             <form>
                                 <div className="row g-3">
                                     <div className="col-12 col-sm-6">
-                                        <select className="form-select bg-light border-0" style={{height: 55 + 'px'}}>
-                                            <option defaultValue>Select A Service</option>
-                                            <option value="1">Service 1</option>
-                                            <option value="2">Service 2</option>
-                                            <option value="3">Service 3</option>
+                                        <select className="form-select bg-light border-0" style={{height: 55 + 'px'}} defaultValue={params.type}>
+                                            <option>Select A Service</option>
+                                            <option value="1">Teeth Whitening</option>
+                                            <option value="2">Dental Implant</option>
+                                            <option value="3">Root Canal</option>
                                         </select>
                                     </div>
                                     <div className="col-12 col-sm-6">

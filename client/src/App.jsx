@@ -20,6 +20,7 @@ export default function App() {
         <Route index element={<Home />}/>
         <Route path="/contact" element={<Contact />}/>
         <Route path="/appointment" element={<Appointement />}/>
+        <Route path="/appointment/:type" element={<Appointement />}/>
         <Route path="/team" element={<Team />}/>
         <Route path="/team/:id" element={<TeamMemberDetails />}/>
         <Route path="/about" element={<About />}/>
