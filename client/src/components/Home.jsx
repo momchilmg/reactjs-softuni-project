@@ -1,6 +1,9 @@
 import { Link } from 'react-router';
 
-export default function MainBanner() {
+export default function Home() {
+
+    document.getElementById("root").scrollIntoView()
+
     return (
         <>
             <div className="active carousel-inner">

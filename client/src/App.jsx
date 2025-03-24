@@ -1,7 +1,7 @@
 import TopBar from './components/bars/TopBar'
 import NavBar from './components/bars/NavBar'
 import Footer from './components/bars/Footer'
-import MainBanner from './components/MainBanner'
+import Home from './components/Home'
 import { Routes, Route } from 'react-router'
 import Contact from './components/Contact'
 import Appointement from './components/Appointement'
@@ -17,7 +17,7 @@ export default function App() {
       <TopBar />
       <NavBar />
       <Routes>
-        <Route index element={<MainBanner />}/>
+        <Route index element={<Home />}/>
         <Route path="/contact" element={<Contact />}/>
         <Route path="/appointment" element={<Appointement />}/>
         <Route path="/team" element={<Team />}/>
