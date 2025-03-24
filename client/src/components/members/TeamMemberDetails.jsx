@@ -12,6 +12,7 @@ export default function TeamMemberDetails() {
     const { id } = useParams()
 
     useEffect(() => {
+        document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
         fetch(`http://localhost:3030/jsonstore/doc/${id}`)
         .then(response => response.json())
         .then(data => {
