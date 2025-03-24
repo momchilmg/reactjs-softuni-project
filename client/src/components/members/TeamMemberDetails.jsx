@@ -1,7 +1,7 @@
 import TeamMember from "./TeamMember"
 import { useState, useEffect } from "react";
 import Spinner from "../Spinner";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import Hero from "../bars/HeroBar";
 import Comment from "../comments/Comment";
 import bioCSS from "../../css/Bio.module.css"
@@ -10,6 +10,7 @@ export default function TeamMemberDetails() {
     const [isPending, setIsPending] = useState(true)
     const [member, setMember] = useState([])
     const { id } = useParams()
+    const navigation = useNavigate()
 
     useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
@@ -21,6 +22,7 @@ export default function TeamMemberDetails() {
         })
         .catch(error => {
             console.log(error.message)
+            setTimeout(() => {navigation("/")},1000)
         });
     }, []);
     

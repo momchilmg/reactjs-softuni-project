@@ -1,12 +1,14 @@
-import { Link } from "react-router"
+import { Link, Navigate } from "react-router"
 import Hero from "./bars/HeroBar"
 import TeamMember from "./members/TeamMember"
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
+import { useNavigate } from "react-router";
 
 export default function Team() {
     const [isPending, setIsPending] = useState(true)
     const [members, setMembers] = useState([])
+    const navigation = useNavigate()
 
     useEffect(() => {
         fetch('http://localhost:3030/jsonstore/doc')
@@ -16,8 +18,9 @@ export default function Team() {
                 setMembers(result)
                 setIsPending(false)
             })
-            .catch(error => {
+            .catch(error => {                
                 console.log(error.message)
+                setTimeout(() => {navigation("/")},1000)
             });
     }, []);
     
