@@ -9,7 +9,7 @@ export default function Hero(props) {
 
     return (
         <>
-            <div className="container-fluid bg-primary py-5 hero-header">
+            <div className="container-fluid bg-primary py-5 hero-header baseHeroBar">
                 <div className="row py-3">
                     <div className="col-12 text-center">
                         <h1 className="display-3 text-white animated zoomIn">{props.name}</h1>
