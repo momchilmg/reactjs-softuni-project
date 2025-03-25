@@ -11,7 +11,7 @@ export default function Team() {
     const navigation = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:3030/jsonstore/doc')
+        fetch('http://localhost:3030/data/members')
             .then(response => response.json())
             .then(data => {
                 const result = Object.values(data)
