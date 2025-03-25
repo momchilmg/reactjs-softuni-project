@@ -8,23 +8,60 @@ import bioCSS from "../../css/Bio.module.css"
 
 export default function TeamMemberDetails() {
     const [isPending, setIsPending] = useState(true)
+    const [haveNoMore, setHaveNoMore] = useState(false)
     const [member, setMember] = useState([])
+    const [fromComment, setFromComment] = useState(0)
+    const [comments, setComments] = useState([])
+    const [commentsLength, setCommentsLength] = useState(0)
+    const [commentsLastId, setCommentsLastId] = useState(-1)
+    const [commentsWhereLastId, setCommentsWhereLastId] = useState(null)
     const { id } = useParams()
     const navigation = useNavigate()
+    const [btnText, setBtnText] = useState("Load more comments")
+    const pageSize = 3
 
     useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
-        fetch(`http://localhost:3030/jsonstore/doc/${id}`)
+        fetch(`http://localhost:3030/data/members/?where=id%3D${id}`)
         .then(response => response.json())
         .then(data => {
-            setMember(data)
+            setMember(...data)
+            loadComments()
             setIsPending(false)
         })
         .catch(error => {
             console.log(error.message)
             setTimeout(() => {navigation("/")},1000)
+        })
+    }, [])
+
+    useEffect(
+        () => {
+            if (comments.length < commentsLength) {
+                setFromComment(0)
+                setCommentsWhereLastId(encodeURIComponent(" AND id>") + commentsLastId)
+            }
+            setCommentsLength(comments.length)
+    }, [comments])
+
+    function loadComments() {
+        setHaveNoMore(true)
+        fetch(`http://localhost:3030/data/comments/?where=` + encodeURIComponent("memberId=" + id) + (commentsWhereLastId || "") + `&offset=${fromComment}&pageSize=${pageSize}`)
+        .then(response => response.json())
+        .then(data => {            
+            setComments([...comments, ...data])
+            setCommentsLastId(data[data.length - 1].id)
+            setFromComment(fromComment + data.length)
+            if (data.length == pageSize) {
+                setHaveNoMore(false)
+            } else {
+                setBtnText("No more comments")
+            }
+        })
+        .catch(error => {
+            console.log(error.message)
         });
-    }, []);
+    }
     
     return (
         <>
@@ -48,13 +85,9 @@ export default function TeamMemberDetails() {
                     </div>
                 </div>
             </div>
-            <h2 style={{marginBottom: 0}}>Comments:</h2>
-            <Comment author="kkk" comment="tes te st etsjkh test kjuh" date="XX xxxx XXXX"/>
-            <Comment author="kkk" comment="tes te st etsjkh test kjuh" date="XX xxxx XXXX"/>
-            <Comment author="kkk" comment="tes te st etsjkh test kjuh" date="XX xxxx XXXX"/>
-            <Comment author="kkk" comment="tes te st etsjkh test kjuh" date="XX xxxx XXXX"/>
-            <Comment author="kkk" comment="tes te st etsjkh test kjuh" date="XX xxxx XXXX"/>
-            <Comment author="kkk" comment="tes te st etsjkh test kjuh" date="XX xxxx XXXX"/>
+            <h2 style={{marginBottom: 0}}>Comments:</h2>            
+            {comments.map(data => <Comment key={"comment" + data.id} id={data._id} author={data.author} comment={data.text}  date={data.created} comments={comments} setComments={setComments} />)}
+            <button className={bioCSS.loadCommentsButton + (haveNoMore ? " " + bioCSS.loadCommentsButtonDisabled : "") + " btn btn-primary py-2 px-4 col-lg-2"} onClick={loadComments}>{btnText}</button>
             </div>
             </div>
             </div>

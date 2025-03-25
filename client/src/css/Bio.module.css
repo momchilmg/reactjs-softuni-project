@@ -4,3 +4,39 @@
 .commentItem {
     margin-top: 1.5rem !important;
 }
+.loadCommentsButton {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loadCommentsButtonDisabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.commentDeleteButton {
+    position: absolute;
+    right: 10px;
+    background-color: red !important;
+}
+.commentEditButton {
+    position: absolute;
+    right: 120px;
+    background-color: rgb(153, 153, 24) !important;
+}
+.commentBody {
+    position: relative;
+}
+.confirmDelete {
+    position: absolute;
+    left: 20%;
+    top: 45%;
+    width: 25%;
+    background-color: red !important;
+}
+.cancelDelete {
+    position: absolute;
+    right: 20%;
+    top: 45%;
+    width: 25%;
+    background-color: green !important;
+}
