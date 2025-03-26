@@ -7,6 +7,5 @@ import './css/Style.css'
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <App />
-    </BrowserRouter>
-    
+    </BrowserRouter>    
 )
