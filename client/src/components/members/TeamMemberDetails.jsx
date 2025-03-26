@@ -5,6 +5,9 @@ import { useParams, useNavigate } from "react-router";
 import Hero from "../bars/HeroBar";
 import Comment from "../comments/Comment";
 import bioCSS from "../../css/Bio.module.css"
+import { CommentsContext } from "../comments/CommentsContext";
+import CommentButton from "../comments/CommentButton";
+import CommentNew from "../comments/CommentNew";
 
 export default function TeamMemberDetails() {
     const [isPending, setIsPending] = useState(true)
@@ -19,6 +22,7 @@ export default function TeamMemberDetails() {
     const navigation = useNavigate()
     const [btnText, setBtnText] = useState("Load more comments")
     const pageSize = 3
+    const [toNew, setNew] = useState(false)
 
     useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
@@ -48,7 +52,11 @@ export default function TeamMemberDetails() {
         setHaveNoMore(true)
         fetch(`http://localhost:3030/data/comments/?where=` + encodeURIComponent("memberId=" + id) + (commentsWhereLastId || "") + `&offset=${fromComment}&pageSize=${pageSize}`)
         .then(response => response.json())
-        .then(data => {            
+        .then(data => {          
+            if (data.length == 0) {
+                setBtnText("No more comments") 
+                return
+            }
             setComments([...comments, ...data])
             setCommentsLastId(data[data.length - 1].id)
             setFromComment(fromComment + data.length)
@@ -62,7 +70,7 @@ export default function TeamMemberDetails() {
             console.log(error.message)
         });
     }
-    
+
     return (
         <>
             {isPending && <Spinner />}
@@ -85,9 +93,13 @@ export default function TeamMemberDetails() {
                     </div>
                 </div>
             </div>
-            <h2 style={{marginBottom: 0}}>Comments:</h2>            
-            {comments.map(data => <Comment key={"comment" + data.id} id={data._id} author={data.author} comment={data.text}  date={data.created} comments={comments} setComments={setComments} />)}
-            <button className={bioCSS.loadCommentsButton + (haveNoMore ? " " + bioCSS.loadCommentsButtonDisabled : "") + " btn btn-primary py-2 px-4 col-lg-2"} onClick={loadComments}>{btnText}</button>
+            <h2 style={{marginBottom: 0}}>Comments:</h2>  
+            <CommentsContext.Provider value={[comments, setComments]}>      
+                {comments.map(data => <Comment key={"comment" + data.id} id={data._id} author={data.author} comment={decodeURIComponent(data.text)}  date={data.created} />)}
+            </CommentsContext.Provider>    
+            {toNew && <CommentNew />}
+            <CommentButton css={"col-lg-2 " + bioCSS.loadCommentsButton + (haveNoMore ? " " + bioCSS.loadCommentsButtonDisabled : "")} click={loadComments} name={btnText} />
+            <CommentButton css={"col-lg-2 " + bioCSS.newCommentButton} click={() => setNew(true)} name="New comment" />
             </div>
             </div>
             </div>

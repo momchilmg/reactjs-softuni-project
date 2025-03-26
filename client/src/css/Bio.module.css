@@ -31,7 +31,7 @@
     left: 20%;
     top: 45%;
     width: 25%;
-    background-color: red !important;
+    background-color: red;
 }
 .cancelDelete {
     position: absolute;
@@ -39,4 +39,18 @@
     top: 45%;
     width: 25%;
     background-color: green !important;
+}
+.textArea {
+    width: 100%;
+    min-width: 400px;
+}
+.beGreen {
+    background-color: green !important;
+}
+.newCommentButton {
+    position: relative;
+    right: 24px;
+}
+.h5mod {
+    white-space: pre-wrap;
 }
