@@ -75,7 +75,9 @@ function getGoodDate(timestamp) {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-        timeZone: 'Europe/Sofia'
+        timeZone: 'Europe/Sofia',
+        hour: '2-digit',
+        minute: '2-digit'
     }
     
     return date.toLocaleDateString('en-GB', options)
