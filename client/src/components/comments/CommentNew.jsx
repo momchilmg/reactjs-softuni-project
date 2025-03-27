@@ -14,14 +14,6 @@ export default function CommentNew() {
     const memberId = useContext(NewSetCommentContext)[5]
     const [commentText, setCommentText] = useState("")
 
-    useEffect(() => {
-        setCommentsLength(0)
-        setFromComment(0)
-        setCommentsLastCreated(-1)
-        setComments([])
-        setHaveNoMore(false)
-    },[])
-
     const options = {
         method: 'POST',
         headers: { 
@@ -36,12 +28,18 @@ export default function CommentNew() {
     }
 
     function SaveComment() {
+        if (commentText.trim() === '') {
+            setNew(false)
+            return
+        }
         fetch(`http://localhost:3030/data/comments/`, options)
         .then(response => response.json())
-        .then(data => {        
+        .then(data => {       
+            setFromComment(0)
+            setHaveNoMore(false) 
             setCommentsLastCreated(data._createdOn)
             setCommentsLength(2)
-            setComments([...comments, data])        
+            setComments([data])        
             setNew(false)    
         })
         .catch(error => {

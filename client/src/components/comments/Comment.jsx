@@ -31,6 +31,10 @@ export default function Comment(props) {
     }
 
     function SaveEdit() {
+        if (commentText.trim() === '') {
+            setEdit(false)
+            return
+        }
         fetch(`http://localhost:3030/data/comments/${props.id}`, options)
         .then(response => response.json())
         .then(data => {        
