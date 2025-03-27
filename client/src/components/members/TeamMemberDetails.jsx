@@ -29,13 +29,18 @@ export default function TeamMemberDetails() {
         fetch(`http://localhost:3030/data/members/?where=id%3D${id}`)
         .then(response => response.json())
         .then(data => {
-            setMember(...data)
-            loadComments()
-            setIsPending(false)
+            if (data.length == 0) {
+                setTimeout(() => {navigation("/team")},1000)
+            }
+            else {
+                setMember(...data)
+                loadComments()
+                setIsPending(false)
+            }
         })
         .catch(error => {
             console.log(error.message)
-            setTimeout(() => {navigation("/")},1000)
+            setTimeout(() => {navigation("/team")},1000)
         })
     }, [])
 
