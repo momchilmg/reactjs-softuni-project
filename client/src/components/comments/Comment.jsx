@@ -6,21 +6,32 @@ import { CommentsContext } from "./CommentsContext"
 import CommentButton from "./CommentButton"
 
 export default function Comment(props) {
-    const [toDelete, setDelete] = useState(false)
+    const [openDeletePopup, setDeletePopup] = useState(false)
     const [toEdit, setEdit] = useState(false)
     const [commentText, setCommentText] = useState(props.comment)
     const [comments, setComments] = useContext(CommentsContext)
 
     function CommentDel() {
-        setDelete(!toDelete)
+        setDeletePopup(!openDeletePopup)
     }
 
     function SetEdit() {
         setEdit(!toEdit)
     }
 
+    const options = {
+        method: 'PATCH',
+        headers: { 
+            'X-Admin': 'admin@abv.bg',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            "text": encodeURIComponent(commentText)
+        })
+    }
+
     function SaveEdit() {
-        fetch(`http://localhost:3030/data/comments/${props.id}`, {method: "PATCH", headers: {"X-Admin": ""}, body: '{"text": "' + encodeURIComponent(commentText) + '"}'})
+        fetch(`http://localhost:3030/data/comments/${props.id}`, options)
         .then(response => response.json())
         .then(data => {        
             comments.filter(comment => comment._id === props.id)[0].text = commentText
@@ -35,15 +46,13 @@ export default function Comment(props) {
 
     return (
         <>
-            {toDelete && <CommentDelete childSetDelete={setDelete} key={props.id} id={props.id} />}
+            {openDeletePopup && <CommentDelete setDeletePopup={setDeletePopup} key={props.id} id={props.id} />}
             <div className={"col-lg-12 " + commentCSS.commentItem}>                
                 <div className={"bg-light p-3 " + commentCSS.commentBody}>
                     <CommentButton css={commentCSS.commentDeleteButton + (toEdit ? " " + commentCSS.beGreen : "")} click={(toEdit ? SetEdit : CommentDel)} name={(toEdit ? "Cancel" : "Delete")} />
                     <CommentButton css={commentCSS.commentEditButton} click={(!toEdit && SetEdit) || (toEdit && SaveEdit)} name={(toEdit ? "Save" : "Edit")} />
-                    <div className="section-title">
-                        <h1 className="display-6">{props.author}</h1>
-                    </div>
-                    <span>Published on {props.date}</span>
+                    <h5>{props.author}</h5>
+                    <span>Published on {getGoodDate(props.date)}</span>
                     <div className="d-flex align-items-center mb-2">
                         <i className="bi bi-geo-alt fs-1 text-primary"></i>
                         <div className="text-start col-lg-12">
@@ -55,3 +64,15 @@ export default function Comment(props) {
         </>
     )
 }
+
+function getGoodDate(timestamp) {
+    const date = new Date(timestamp)
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'Europe/Sofia'
+    }
+    
+    return date.toLocaleDateString('en-GB', options)
+  }

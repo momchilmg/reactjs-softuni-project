@@ -1,8 +1,54 @@
 import commentCSS from "../../css/Bio.module.css"
 import CommentButton from "./CommentButton";
 import CommentEditArea from "./CommentEditArea";
+import { useContext, useEffect, useState } from "react";
+import { CommentsContext, NewSetCommentContext } from "./CommentsContext";
 
 export default function CommentNew() {
+    const [comments, setComments] = useContext(CommentsContext)
+    const setNew = useContext(NewSetCommentContext)[0]
+    const setFromComment = useContext(NewSetCommentContext)[1]
+    const setCommentsLength = useContext(NewSetCommentContext)[2]
+    const setCommentsLastCreated = useContext(NewSetCommentContext)[3]
+    const setHaveNoMore = useContext(NewSetCommentContext)[4]
+    const memberId = useContext(NewSetCommentContext)[5]
+    const [commentText, setCommentText] = useState("")
+
+    useEffect(() => {
+        setCommentsLength(0)
+        setFromComment(0)
+        setCommentsLastCreated(-1)
+        setComments([])
+        setHaveNoMore(false)
+    },[])
+
+    const options = {
+        method: 'POST',
+        headers: { 
+            'X-Admin': 'admin@abv.bg',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            "author": "admin@abv.bg",
+            "text": encodeURIComponent(commentText),
+            "memberId": + memberId
+            })
+    }
+
+    function SaveComment() {
+        fetch(`http://localhost:3030/data/comments/`, options)
+        .then(response => response.json())
+        .then(data => {        
+            setCommentsLastCreated(data._createdOn)
+            setCommentsLength(2)
+            setComments([...comments, data])        
+            setNew(false)    
+        })
+        .catch(error => {
+            console.log(error.message)
+        });
+    }
+    
     return (
         <>
             <div style={{
@@ -19,26 +65,26 @@ export default function CommentNew() {
             </div>
             <div style={{
                     position: "fixed",
-                    height: "100px",
-                    minWidth: "300px",
-                    backgroundColor: "white",
+                    height: "130px",
+                    minWidth: "470px",
                     zIndex: 3,
                     right: "35%",
                     left: "35%",
                     top: "20%",
-                    width: "30%"
+                    width: "30%",
+                    backgroundColor: "aliceblue"
                 }}
             >
-                <div className={"col-lg-12 " + commentCSS.commentItem}>                
-                    <div className={"bg-light p-3 " + commentCSS.commentBody}>
-                        {/*<CommentButton css={commentCSS.commentDeleteButton + (toEdit ? " " + commentCSS.beGreen : "")} click={(toEdit ? SetEdit : CommentDel)} name={(toEdit ? "Cancel" : "Delete")} />
-                        <CommentButton css={commentCSS.commentEditButton} click={(!toEdit && SetEdit) || (toEdit && SaveEdit)} name={(toEdit ? "Save" : "Edit")} />*/}
+                <div className="col-lg-12">                
+                    <div className="bg-light p-3">                        
                         <div className="d-flex align-items-center mb-2">
                             <i className="bi bi-geo-alt fs-1 text-primary"></i>
                             <div className="text-start col-lg-12">
-                                <CommentEditArea id="textArea-1" comment="" setCommentText={null} />                           
-                            </div>
-                        </div>                    
+                                <CommentEditArea id="textArea-1" comment="" setCommentText={setCommentText} />                           
+                            </div>                            
+                        </div>  
+                        <CommentButton css={commentCSS.newCommentCancelButton} click={() => setNew(false)} name="Cancel" />
+                        <CommentButton css={commentCSS.newCommentSaveButton + " " + commentCSS.beGreen} click={SaveComment} name="Save" />     
                     </div>
                 </div>
             </div>

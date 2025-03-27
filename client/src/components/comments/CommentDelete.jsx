@@ -3,16 +3,19 @@ import commentCSS from "../../css/Bio.module.css"
 import { CommentsContext } from "./CommentsContext";
 import CommentButton from "./CommentButton"
 
-export default function CommentDelete({ childSetDelete, id }) {
+export default function CommentDelete({ setDeletePopup, id }) {
 
     const [comments, setComments] = useContext(CommentsContext)
     
-    function Cancel() {
-        childSetDelete(false)
+    const options = {
+        method: 'DELETE',
+        headers: { 
+            'X-Admin': ''
+        }
     }
     
     function Delete() {
-        fetch(`http://localhost:3030/data/comments/${id}`, {method: "delete", headers: {"X-Admin": ""}})
+        fetch(`http://localhost:3030/data/comments/${id}`, options)
         .then(response => response.json())
         .then(data => {     
             if(data._deletedOn != undefined)
@@ -53,7 +56,7 @@ export default function CommentDelete({ childSetDelete, id }) {
             >
                 <div style={{paddingTop: "1%", textAlign: "center"}}>The selected comment will be deleted. Please, confirm!</div>
                 <CommentButton css={commentCSS.confirmDelete} click={Delete} name="Delete" />
-                <CommentButton css={commentCSS.cancelDelete} click={Cancel} name="Cancel" />
+                <CommentButton css={commentCSS.cancelDelete} click={() => setDeletePopup(false)} name="Cancel" />
             </div>
         </>
     )

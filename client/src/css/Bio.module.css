@@ -54,3 +54,11 @@
 .h5mod {
     white-space: pre-wrap;
 }
+.newCommentCancelButton {
+    position: absolute;
+    right: 20%;
+}
+.newCommentSaveButton {
+    position: absolute;
+    left: 20%;
+}
