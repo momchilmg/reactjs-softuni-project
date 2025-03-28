@@ -32,11 +32,13 @@ export default function Appointement() {
             });
     }, [])
 
-    const MakeAppointement = (formData) => {
-        let service = formData.get('service')
-        let member = formData.get('member')
-        let date = formData.get('date')
-        let time = formData.get('time')
+    const makeAppointement = (appointmentForm) => {
+        console.log(appointmentForm);
+        let service = appointmentForm.get('service')
+        let member = appointmentForm.get('member')
+        let date = appointmentForm.get('date')
+        let time = appointmentForm.get('time')
+
         if (!isValidDate(date) ||
             !isValidTime(time) ||
             !(service > 0) ||
@@ -90,7 +92,7 @@ export default function Appointement() {
                         <div className="col-lg-6">
                             <div className="appointment-form h-100 d-flex flex-column justify-content-center text-center p-5">
                                 <h1 className="text-white mb-4">Make Appointment</h1>
-                                <form id="appointmentForm" action={MakeAppointement}>
+                                <form id="appointmentForm" action={makeAppointement}>
                                     <div className="row g-3">
                                         <div className="col-12 col-sm-6">
                                             <select className="form-select bg-light border-0" style={{ height: 55 + 'px' }} id="service" name="service" defaultValue={params.type}>
