@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router"
+import { Link } from "react-router"
 import Hero from "./bars/HeroBar"
 import TeamMember from "./members/TeamMember"
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ export default function Team() {
     const [members, setMembers] = useState([])
     const navigation = useNavigate()
 
-    useEffect(() => {
+    const firstLoad = useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
         fetch('http://localhost:3030/data/members')
             .then(response => response.json())
@@ -32,7 +32,7 @@ export default function Team() {
             <div className="container-fluid py-5">
             <div className="container">
                 <div className="row g-5">
-                    <div className="col-lg-4 wow slideInUp" data-wow-delay="0.1s">
+                    <div className="col-lg-4">
                         <div className="section-title bg-light rounded h-100 p-5">
                             <h5 className="position-relative d-inline-block text-primary text-uppercase">Our Dentist</h5>
                             <h1 className="display-6 mb-4">Meet Our Certified & Experienced Dentist</h1>
