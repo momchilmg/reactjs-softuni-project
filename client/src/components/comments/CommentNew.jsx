@@ -37,6 +37,8 @@ export default function CommentNew() {
         fetch(`http://localhost:3030/data/comments/`, options)
             .then(response => response.json())
             .then(data => {
+                if (data.code !== undefined)
+                    return
                 setFromComment(0)
                 setHaveNoMore(false)
                 setCommentsLastCreated(data._createdOn)
