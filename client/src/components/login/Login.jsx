@@ -1,12 +1,12 @@
 import Input from "./Input";
-import { LoginContext } from "../context/LoginContext";
+import { GlobalContext } from "../context/GlobalContext";
 import { useContext } from "react";
 import { useNavigate, useResolvedPath  } from "react-router";
 
 export default function Login() {
     
-    const [openLoginForm, setOpenLoginForm] = useContext(LoginContext)[0]
-    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]    
+    const [openLoginForm, setOpenLoginForm] = useContext(GlobalContext)[0]
+    const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]    
     const path = useResolvedPath().pathname
     const navigate = useNavigate()
 

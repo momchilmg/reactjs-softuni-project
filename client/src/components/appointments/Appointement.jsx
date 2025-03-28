@@ -1,20 +1,55 @@
 import { useParams } from "react-router"
-import Hero from "./bars/HeroBar"
-import { LoginContext } from "./context/LoginContext"
+import Hero from "../bars/HeroBar"
+import { GlobalContext } from "../context/GlobalContext"
 import { useContext, useEffect } from "react"
 
 export default function Appointement() {
 
     let params = useParams()
     
-    const [openLoginForm, setOpenLoginForm] = useContext(LoginContext)[0]
-    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
+    const [openLoginForm, setOpenLoginForm] = useContext(GlobalContext)[0]
+    const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
+    const [openInfoPopup, setOpenInfoPopup] = useContext(GlobalContext)[2]
 
     const onLoad = useEffect(() => {
         if (!authorizedUser && !openLoginForm)
             setOpenLoginForm(true)
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
     },[])    
+
+    const MakeAppointement = (formData) => {
+        let service = formData.get('service')
+        let member = formData.get('service')
+        let date = formData.get('date')
+        let time = formData.get('time')
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'X-Authorization': authorizedUser.accessToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "authorId": authorizedUser._id,
+                "authorName": authorizedUser.username,
+                "service": service,
+                "member": member,
+                "date": date,
+                "time": time,
+            })
+        }
+        
+        fetch(`http://localhost:3030/data/appointements/`, options)
+            .then(response => response.json())
+            .then(data => {
+                if (data.code !== undefined)
+                    return
+                setOpenInfoPopup("Your appointment has been created")
+            })
+            .catch(error => {
+                console.log(error.message)
+            });
+    }
 
     return (
         <>
@@ -31,10 +66,10 @@ export default function Appointement() {
                     <div className="col-lg-6">
                         <div className="appointment-form h-100 d-flex flex-column justify-content-center text-center p-5">
                             <h1 className="text-white mb-4">Make Appointment</h1>
-                            <form>
+                            <form id="appointmentForm" action={MakeAppointement}>
                                 <div className="row g-3">
                                     <div className="col-12 col-sm-6">
-                                        <select className="form-select bg-light border-0" style={{height: 55 + 'px'}} defaultValue={params.type}>
+                                        <select className="form-select bg-light border-0" style={{height: 55 + 'px'}} id="service" name="service" defaultValue={params.type}>
                                             <option>Select A Service</option>
                                             <option value="1">Teeth Whitening</option>
                                             <option value="2">Dental Implant</option>
@@ -42,7 +77,7 @@ export default function Appointement() {
                                         </select>
                                     </div>
                                     <div className="col-12 col-sm-6">
-                                        <select className="form-select bg-light border-0" style={{height: 55 + 'px'}}>
+                                        <select className="form-select bg-light border-0" id="member" name="member" style={{height: 55 + 'px'}}>
                                             <option defaultValue>Select Doctor</option>
                                             <option value="1">Doctor 1</option>
                                             <option value="2">Doctor 2</option>
@@ -53,14 +88,20 @@ export default function Appointement() {
                                         <div className="date" id="date1" data-target-input="nearest">
                                             <input type="date"
                                                 className="form-control bg-light border-0 datetimepicker-input"
-                                                placeholder="Appointment Date" style={{height: 55 + 'px'}} />
+                                                placeholder="Appointment Date"
+                                                 id="date"
+                                                 name="date"
+                                                style={{height: 55 + 'px'}} />
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="time" id="time1" data-target-input="nearest">
                                             <input type="time"
                                                 className="form-control bg-light border-0 datetimepicker-input"
-                                                placeholder="Appointment Time" style={{height: 55 + 'px'}}
+                                                placeholder="Appointment Time"
+                                                id="time"
+                                                name="time" 
+                                                style={{height: 55 + 'px'}}
                                             />
                                         </div>
                                     </div>

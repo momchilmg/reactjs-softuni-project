@@ -8,7 +8,7 @@ import bioCSS from "../../css/Bio.module.css"
 import { CommentsContext, NewSetCommentContext } from "../comments/CommentsContext";
 import CommentButton from "../comments/CommentButton";
 import CommentNew from "../comments/CommentNew";
-import { LoginContext } from "../context/LoginContext";
+import { GlobalContext } from "../context/GlobalContext";
 
 export default function TeamMemberDetails() {
     const [isPending, setIsPending] = useState(true)
@@ -24,8 +24,8 @@ export default function TeamMemberDetails() {
     const [btnText, setBtnText] = useState("Load more comments")
     const pageSize = 3
     const [toNew, setNew] = useState(false)
-    const [openLoginForm, setOpenLoginForm] = useContext(LoginContext)[0]
-    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
+    const [openLoginForm, setOpenLoginForm] = useContext(GlobalContext)[0]
+    const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
 
     useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()

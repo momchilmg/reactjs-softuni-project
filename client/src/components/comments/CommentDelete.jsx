@@ -2,12 +2,12 @@ import { useContext } from "react";
 import commentCSS from "../../css/Bio.module.css"
 import { CommentsContext } from "./CommentsContext";
 import CommentButton from "./CommentButton"
-import { LoginContext } from "../context/LoginContext";
+import { GlobalContext } from "../context/GlobalContext";
 
 export default function CommentDelete({ setDeletePopup, id }) {
 
     const [comments, setComments] = useContext(CommentsContext)
-    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
+    const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
     
     const options = {
         method: 'DELETE',

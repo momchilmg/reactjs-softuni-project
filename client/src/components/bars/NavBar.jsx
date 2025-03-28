@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router';
 import { useContext, useState } from 'react';
-import { LoginContext } from '../context/LoginContext';
+import { GlobalContext } from '../context/GlobalContext';
 
 export default function NavBar() {
 
     const location = useLocation()
-    const [openLoginForm, setOpenLoginForm] = useContext(LoginContext)[0]
-    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
+    const [openLoginForm, setOpenLoginForm] = useContext(GlobalContext)[0]
+    const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
     const [showMenu, setSHowMenu] = useState(false)
 
     const Logout = () => {

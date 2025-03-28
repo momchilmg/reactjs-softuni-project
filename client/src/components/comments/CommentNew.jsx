@@ -3,7 +3,7 @@ import CommentButton from "./CommentButton";
 import CommentEditArea from "./CommentEditArea";
 import { useContext, useEffect, useState } from "react";
 import { CommentsContext, NewSetCommentContext } from "./CommentsContext";
-import { LoginContext } from "../context/LoginContext";
+import { GlobalContext } from "../context/GlobalContext";
 
 export default function CommentNew() {
     const [comments, setComments] = useContext(CommentsContext)
@@ -14,7 +14,7 @@ export default function CommentNew() {
     const setHaveNoMore = useContext(NewSetCommentContext)[4]
     const memberId = useContext(NewSetCommentContext)[5]
     const [commentText, setCommentText] = useState("")
-    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
+    const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
 
     const options = {
         method: 'POST',

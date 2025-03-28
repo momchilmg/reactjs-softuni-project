@@ -4,19 +4,19 @@ import Footer from './components/bars/Footer'
 import Home from './components/Home'
 import { Routes, Route, Navigate } from 'react-router'
 import Contact from './components/Contact'
-import Appointement from './components/Appointement'
+import Appointement from './components/appointments/Appointement'
 import Team from './components/Team'
 import About from './components/About'
 import Service from './components/Service'
 import TeamMemberDetails from './components/members/TeamMemberDetails'
 import Login from './components/login/Login'
-import { LoginContext } from './components/context/LoginContext'
+import { GlobalContext } from './components/context/GlobalContext'
 import { useEffect, useState } from 'react'
 import usePersistedState from './components/hooks/usePersistedState'
 
 export default function App() {
 
-    const [openLoginForm, setOpenLoginForm] = useState(false)
+    const [openLoginForm, setOpenLoginForm] = useState(false)    
     const [authorizedUser, setAuthorizedUser] = usePersistedState('authotization', null)
 
     const LoginCheck = useEffect(() => {
@@ -45,7 +45,7 @@ export default function App() {
 
     return (
         <>
-            <LoginContext.Provider value={[[openLoginForm, setOpenLoginForm], [authorizedUser, setAuthorizedUser]]}>
+            <GlobalContext.Provider value={[[openLoginForm, setOpenLoginForm], [authorizedUser, setAuthorizedUser], [openInfoPopup, setOpenInfoPopup]]}>
                 {(openLoginForm && <Login />)}
                 <TopBar />
                 <NavBar />
@@ -60,7 +60,7 @@ export default function App() {
                     <Route path="/service" element={<Service />} />
                 </Routes>
                 <Footer />
-            </LoginContext.Provider>
+            </GlobalContext.Provider>
         </>
     )
 }
