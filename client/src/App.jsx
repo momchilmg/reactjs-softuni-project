@@ -13,11 +13,13 @@ import Login from './components/login/Login'
 import { GlobalContext } from './components/context/GlobalContext'
 import { useEffect, useState } from 'react'
 import usePersistedState from './components/hooks/usePersistedState'
+import InfoMessage from './components/misc/InfoMessage'
 
 export default function App() {
 
     const [openLoginForm, setOpenLoginForm] = useState(false)    
     const [authorizedUser, setAuthorizedUser] = usePersistedState('authotization', null)
+    const [openInfoPopup, setOpenInfoPopup] = useState(null)
 
     const LoginCheck = useEffect(() => {
         if (!authorizedUser)
@@ -47,6 +49,7 @@ export default function App() {
         <>
             <GlobalContext.Provider value={[[openLoginForm, setOpenLoginForm], [authorizedUser, setAuthorizedUser], [openInfoPopup, setOpenInfoPopup]]}>
                 {(openLoginForm && <Login />)}
+                {(openInfoPopup !== null && <InfoMessage />)}
                 <TopBar />
                 <NavBar />
                 <Routes>
