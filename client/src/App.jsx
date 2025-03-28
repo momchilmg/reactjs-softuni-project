@@ -11,32 +11,56 @@ import Service from './components/Service'
 import TeamMemberDetails from './components/members/TeamMemberDetails'
 import Login from './components/login/Login'
 import { LoginContext } from './components/context/LoginContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import usePersistedState from './components/hooks/usePersistedState'
 
 export default function App() {
 
-  const [openLoginForm, setOpenLoginForm] = useState(false)
-  const [authorizedUser, setAuthorizedUser] = usePersistedState('authotization', null)
+    const [openLoginForm, setOpenLoginForm] = useState(false)
+    const [authorizedUser, setAuthorizedUser] = usePersistedState('authotization', null)
 
-  return (
-    <>
-      <LoginContext.Provider value={[[openLoginForm, setOpenLoginForm],[authorizedUser, setAuthorizedUser]]}>
-        {(openLoginForm && <Login />)}
-        <TopBar />
-        <NavBar />      
-          <Routes>
-            <Route index element={<Home />}/>
-            <Route path="/contact" element={<Contact />}/>
-            <Route path="/appointment" element={<Appointement />} />
-            <Route path="/appointment/:type" element={<Appointement />}/>
-            <Route path="/team" element={<Team />}/>
-            <Route path="/team/:id" element={<TeamMemberDetails />}/>
-            <Route path="/about" element={<About />}/>
-            <Route path="/service" element={<Service />}/>
-          </Routes>      
-        <Footer />
-      </LoginContext.Provider>
-    </>
-  )
+    const LoginCheck = useEffect(() => {
+        if (!authorizedUser)
+            return
+        
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-Authorization': authorizedUser.accessToken,
+                'Content-Type': 'application/json'
+            }
+        }
+
+        fetch(`http://localhost:3030/users/me/`, options)
+            .then(response => response.json())
+            .then(data => {
+                if (data._id === authorizedUser._id)
+                    return
+                setAuthorizedUser(null)
+            })
+            .catch(error => {
+                console.log(error.message)
+            });
+    }, [])
+
+    return (
+        <>
+            <LoginContext.Provider value={[[openLoginForm, setOpenLoginForm], [authorizedUser, setAuthorizedUser]]}>
+                {(openLoginForm && <Login />)}
+                <TopBar />
+                <NavBar />
+                <Routes>
+                    <Route index element={<Home />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/appointment" element={<Appointement />} />
+                    <Route path="/appointment/:type" element={<Appointement />} />
+                    <Route path="/team" element={<Team />} />
+                    <Route path="/team/:id" element={<TeamMemberDetails />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/service" element={<Service />} />
+                </Routes>
+                <Footer />
+            </LoginContext.Provider>
+        </>
+    )
 }
