@@ -1,11 +1,17 @@
 import Hero from "./bars/HeroBar";
 import ServiceItem from "./members/ServiceItem";
+import { useEffect } from "react";
 
 export default function Service() {
+
+    const firstLoad = useEffect(() => {
+        document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
+    }, []);
+
     return (
         <>
         <Hero name="Service" url="service" />
-        <div className="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div className="container-fluid py-5">
         <div className="container">
             <div className="row g-5">
                 <div className="col-lg-6">

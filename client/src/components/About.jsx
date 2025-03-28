@@ -1,11 +1,17 @@
 import { Link } from "react-router"
 import Hero from "./bars/HeroBar"
+import { useEffect } from "react";
 
 export default function About() {
+
+    const firstLoad = useEffect(() => {
+        document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
+    }, []);
+
     return (
         <>
             <Hero name="About" url="about" />
-            <div className="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div className="container-fluid py-5">
                 <div className="container">
                     <div className="row g-5">
                         <div className="col-lg-7">
@@ -16,7 +22,7 @@ export default function About() {
                             <h4 className="text-body fst-italic mb-4">Diam dolor diam ipsum sit. Clita erat ipsum et lorem stet no lorem sit clita duo justo magna dolore</h4>
                             <p className="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna dolore erat amet</p>
                             <div className="row g-3">
-                                <div className="col-sm-6 wow zoomIn" data-wow-delay="0.3s">
+                                <div className="col-sm-6">
                                     <h5 className="mb-3"><i className="fa fa-check-circle text-primary me-3"></i>Award Winning</h5>
                                     <h5 className="mb-3"><i className="fa fa-check-circle text-primary me-3"></i>Professional Staff</h5>
                                 </div>
@@ -25,7 +31,7 @@ export default function About() {
                                     <h5 className="mb-3"><i className="fa fa-check-circle text-primary me-3"></i>Fair Prices</h5>
                                 </div>
                             </div>
-                            <Link to="/appointment" className="btn btn-primary py-3 px-5 mt-4 wow zoomIn" data-wow-delay="0.6s">Make Appointment</Link>
+                            <Link to="/appointment" className="btn btn-primary py-3 px-5 mt-4">Make Appointment</Link>
                         </div>
                         <div className="col-lg-5" style={{minHeight: 500 + 'px'}}>
                             <div className="position-relative h-100">

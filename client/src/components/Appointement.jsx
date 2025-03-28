@@ -2,9 +2,9 @@ import { useParams } from "react-router"
 import Hero from "./bars/HeroBar"
 import { LoginContext } from "./context/LoginContext"
 import { useContext, useEffect } from "react"
-import Login from "./login/Login"
 
 export default function Appointement() {
+
     let params = useParams()
     
     const [openLoginForm, setOpenLoginForm] = useContext(LoginContext)[0]
@@ -13,12 +13,13 @@ export default function Appointement() {
     const onLoad = useEffect(() => {
         if (!authorizedUser && !openLoginForm)
             setOpenLoginForm(true)
+        document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
     },[])    
 
     return (
         <>
             <Hero name="Appointment" url="appointment" />
-            <div className="container-fluid bg-primary bg-appointment mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{marginTop: 50 + 'px'}}>
+            <div className="container-fluid bg-primary bg-appointment mb-5" style={{marginTop: 50 + 'px'}}>
             <div className="container">
                 <div className="row gx-5">
                     <div className="col-lg-6 py-5">
@@ -28,7 +29,7 @@ export default function Appointement() {
                         </div>
                     </div>
                     <div className="col-lg-6">
-                        <div className="appointment-form h-100 d-flex flex-column justify-content-center text-center p-5 wow zoomIn" data-wow-delay="0.6s">
+                        <div className="appointment-form h-100 d-flex flex-column justify-content-center text-center p-5">
                             <h1 className="text-white mb-4">Make Appointment</h1>
                             <form>
                                 <div className="row g-3">
