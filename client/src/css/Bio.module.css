@@ -47,6 +47,9 @@
 .beGreen {
     background-color: green !important;
 }
+.beBlue {
+    background-color: #081a35 !important;
+}
 .newCommentButton {
     position: relative;
     right: 24px;

@@ -1,9 +1,20 @@
 import { useParams } from "react-router"
 import Hero from "./bars/HeroBar"
+import { LoginContext } from "./context/LoginContext"
+import { useContext, useEffect } from "react"
+import Login from "./login/Login"
 
 export default function Appointement() {
     let params = useParams()
-    console.log(params.type)
+    
+    const [openLoginForm, setOpenLoginForm] = useContext(LoginContext)[0]
+    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
+
+    const onLoad = useEffect(() => {
+        if (!authorizedUser && !openLoginForm)
+            setOpenLoginForm(true)
+    },[])    
+
     return (
         <>
             <Hero name="Appointment" url="appointment" />
@@ -36,12 +47,6 @@ export default function Appointement() {
                                             <option value="2">Doctor 2</option>
                                             <option value="3">Doctor 3</option>
                                         </select>
-                                    </div>
-                                    <div className="col-12 col-sm-6">
-                                        <input type="text" className="form-control bg-light border-0" placeholder="Your Name" style={{height: 55 + 'px'}} />
-                                    </div>
-                                    <div className="col-12 col-sm-6">
-                                        <input type="email" className="form-control bg-light border-0" placeholder="Your Email" style={{height: 55 + 'px'}} />
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="date" id="date1" data-target-input="nearest">

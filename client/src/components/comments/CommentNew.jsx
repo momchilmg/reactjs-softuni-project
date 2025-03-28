@@ -3,6 +3,7 @@ import CommentButton from "./CommentButton";
 import CommentEditArea from "./CommentEditArea";
 import { useContext, useEffect, useState } from "react";
 import { CommentsContext, NewSetCommentContext } from "./CommentsContext";
+import { LoginContext } from "../context/LoginContext";
 
 export default function CommentNew() {
     const [comments, setComments] = useContext(CommentsContext)
@@ -13,15 +14,16 @@ export default function CommentNew() {
     const setHaveNoMore = useContext(NewSetCommentContext)[4]
     const memberId = useContext(NewSetCommentContext)[5]
     const [commentText, setCommentText] = useState("")
+    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
 
     const options = {
         method: 'POST',
         headers: { 
-            'X-Admin': 'admin@abv.bg',
+            'X-Authorization': authorizedUser.accessToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
-            "author": "admin@abv.bg",
+            "author": authorizedUser.username,
             "text": encodeURIComponent(commentText),
             "memberId": + memberId
             })
@@ -63,7 +65,7 @@ export default function CommentNew() {
             </div>
             <div style={{
                     position: "fixed",
-                    height: "130px",
+                    height: "150px",
                     minWidth: "470px",
                     zIndex: 3,
                     right: "35%",
@@ -73,8 +75,9 @@ export default function CommentNew() {
                     backgroundColor: "aliceblue"
                 }}
             >
-                <div className="col-lg-12">                
-                    <div className="bg-light p-3">                        
+                <div className="col-lg-12">     
+                    <center><h5>New comment</h5></center>           
+                    <div className="bg-light">                        
                         <div className="d-flex align-items-center mb-2">
                             <i className="bi bi-geo-alt fs-1 text-primary"></i>
                             <div className="text-start col-lg-12">

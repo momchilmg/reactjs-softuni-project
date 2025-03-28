@@ -1,5 +1,5 @@
 import TeamMember from "./TeamMember"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Spinner from "../Spinner";
 import { useParams, useNavigate } from "react-router";
 import Hero from "../bars/HeroBar";
@@ -8,6 +8,7 @@ import bioCSS from "../../css/Bio.module.css"
 import { CommentsContext, NewSetCommentContext } from "../comments/CommentsContext";
 import CommentButton from "../comments/CommentButton";
 import CommentNew from "../comments/CommentNew";
+import { LoginContext } from "../context/LoginContext";
 
 export default function TeamMemberDetails() {
     const [isPending, setIsPending] = useState(true)
@@ -23,6 +24,8 @@ export default function TeamMemberDetails() {
     const [btnText, setBtnText] = useState("Load more comments")
     const pageSize = 3
     const [toNew, setNew] = useState(false)
+    const [openLoginForm, setOpenLoginForm] = useContext(LoginContext)[0]
+    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
 
     useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
@@ -110,7 +113,7 @@ export default function TeamMemberDetails() {
                             </NewSetCommentContext.Provider>
                         </CommentsContext.Provider>
                         <CommentButton css={"col-lg-2 " + bioCSS.loadCommentsButton + (haveNoMore ? " " + bioCSS.loadCommentsButtonDisabled : "")} click={loadComments} name={btnText} />
-                        <CommentButton css={"col-lg-2 " + bioCSS.newCommentButton} click={() => setNew(true)} name="New comment" />
+                        <CommentButton css={"col-lg-2 " + bioCSS.newCommentButton} click={() => {if (authorizedUser) {setNew(true)} else {setOpenLoginForm(true)}}} name="New comment" />
                     </div>
                 </div>
             </div>

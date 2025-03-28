@@ -2,15 +2,18 @@ import { useContext } from "react";
 import commentCSS from "../../css/Bio.module.css"
 import { CommentsContext } from "./CommentsContext";
 import CommentButton from "./CommentButton"
+import { LoginContext } from "../context/LoginContext";
 
 export default function CommentDelete({ setDeletePopup, id }) {
 
     const [comments, setComments] = useContext(CommentsContext)
+    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
     
     const options = {
         method: 'DELETE',
         headers: { 
-            'X-Admin': ''
+            'X-Authorization': authorizedUser.accessToken,
+            'Content-Type': 'application/json'
         }
     }
     

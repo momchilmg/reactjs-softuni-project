@@ -4,12 +4,14 @@ import CommentDelete from "./CommentDelete"
 import CommentEditArea from "./CommentEditArea"
 import { CommentsContext } from "./CommentsContext"
 import CommentButton from "./CommentButton"
+import { LoginContext } from "../context/LoginContext"
 
 export default function Comment(props) {
     const [openDeletePopup, setDeletePopup] = useState(false)
     const [toEdit, setEdit] = useState(false)
     const [commentText, setCommentText] = useState(props.comment)
     const [comments, setComments] = useContext(CommentsContext)
+    const [authorizedUser, setAuthorizedUser] = useContext(LoginContext)[1]
 
     function CommentDel() {
         setDeletePopup(!openDeletePopup)
@@ -22,7 +24,7 @@ export default function Comment(props) {
     const options = {
         method: 'PATCH',
         headers: { 
-            'X-Admin': 'admin@abv.bg',
+            'X-Authorization': (authorizedUser ? authorizedUser.accessToken : ''),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
@@ -53,8 +55,8 @@ export default function Comment(props) {
             {openDeletePopup && <CommentDelete setDeletePopup={setDeletePopup} key={props.id} id={props.id} />}
             <div className={"col-lg-12 " + commentCSS.commentItem}>                
                 <div className={"bg-light p-3 " + commentCSS.commentBody}>
-                    <CommentButton css={commentCSS.commentDeleteButton + (toEdit ? " " + commentCSS.beGreen : "")} click={(toEdit ? SetEdit : CommentDel)} name={(toEdit ? "Cancel" : "Delete")} />
-                    <CommentButton css={commentCSS.commentEditButton} click={(!toEdit && SetEdit) || (toEdit && SaveEdit)} name={(toEdit ? "Save" : "Edit")} />
+                    {(authorizedUser && authorizedUser._id === props.owner && <CommentButton css={commentCSS.commentDeleteButton + (toEdit ? " " + commentCSS.beBlue : "") + " btn-dark"} click={(toEdit ? SetEdit : CommentDel)} name={(toEdit ? "Cancel" : "Delete")} />)}
+                    {(authorizedUser && authorizedUser._id === props.owner && <CommentButton css={commentCSS.commentEditButton + (toEdit ? " " + commentCSS.beGreen : "")} click={(!toEdit && SetEdit) || (toEdit && SaveEdit)} name={(toEdit ? "Save" : "Edit")} />)}
                     <h5>{props.author}</h5>
                     <span>Published on {getGoodDate(props.date)}</span>
                     <div className="d-flex align-items-center mb-2">
