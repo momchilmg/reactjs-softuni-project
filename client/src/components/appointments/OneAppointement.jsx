@@ -47,6 +47,7 @@ export default function OneAppointment(props) {
                 if (data.code !== undefined)
                     return
                 setOpenInfoPopup("Your appointment has been changed")
+                props.LoadMore()
             })
             .catch(error => {
                 console.log(error.message)
