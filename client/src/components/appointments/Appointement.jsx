@@ -3,6 +3,7 @@ import Hero from "../bars/HeroBar"
 import { GlobalContext } from "../context/GlobalContext"
 import { useContext, useEffect, useState } from "react"
 import Spinner from "../Spinner";
+import { isValidDate, isValidTime, isFutureDateTime } from "./Validating"
 
 export default function Appointement() {
 
@@ -15,6 +16,7 @@ export default function Appointement() {
     const [members, setMembers] = useState([])
 
     const onLoad = useEffect(() => {
+
         if (!authorizedUser && !openLoginForm)
             setOpenLoginForm(true)
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
@@ -29,11 +31,12 @@ export default function Appointement() {
             .catch(error => {
                 console.log(error.message)
                 setTimeout(() => { navigation("/") }, 1000)
-            });
+            })
+
     }, [])
 
     const makeAppointement = (appointmentForm) => {
-        console.log(appointmentForm);
+
         let service = appointmentForm.get('service')
         let member = appointmentForm.get('member')
         let date = appointmentForm.get('date')
@@ -45,7 +48,7 @@ export default function Appointement() {
             !(member > 0) ||
             !isFutureDateTime(date + ' ' + time)) {
 
-            setOpenInfoPopup("Please, insert a correct information in appointement form!")
+            setOpenInfoPopup("Please, insert a correct information in appointment form!")
             return
         }
 
@@ -141,30 +144,4 @@ export default function Appointement() {
             </div>
         </>
     )
-}
-
-function isValidDate(dateString) {
-    const d = new Date(dateString);
-    return !isNaN(d.getTime());
-}
-
-function isValidTime(timeString) {
-    const timeRegex = /^([01]\d|2[0-3]):[0-5]\d$/;
-
-    if (!timeRegex.test(timeString)) {
-        return false;
-    }
-
-    return true;
-}
-
-function isFutureDateTime(dateTimeString) {
-    const inputDateTime = new Date(dateTimeString);
-    const currentDateTime = new Date();
-
-    if (isNaN(inputDateTime.getTime())) {
-        return false;
-    }
-
-    return inputDateTime > currentDateTime;
 }

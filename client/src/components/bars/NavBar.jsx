@@ -32,6 +32,8 @@ export default function NavBar() {
                     </div>
                     <Link to="/appointment" className="btn btn-primary py-2 px-4 ms-3">Appointment</Link>
                     <Link to="#" className="btn btn-primary py-2 px-4 ms-3" onClick={() => { (authorizedUser ? Logout() : setOpenLoginForm(true)) }}>{(authorizedUser ? 'Logout' : 'Login')}</Link>
+                    <Link to="/appointment" className="btn btn-primary py-2 px-4 ms-3">Make Appointment</Link>
+                    {(authorizedUser && <Link to="/myappointments" className="btn btn-primary py-2 px-4 ms-3">Your Appointments</Link>)}
                 </div>
             </nav>
         </>
