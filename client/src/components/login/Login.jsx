@@ -42,7 +42,7 @@ export default function Login() {
     };
 
     const CloseLoginForm = () => {
-        if (path.startsWith('/appointment')) {
+        if (path.startsWith('/appointment') || path.startsWith('/myappointments')) {
             navigate("/")
         }
         setOpenLoginForm(false)
