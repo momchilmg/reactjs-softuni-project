@@ -2,7 +2,7 @@ import TopBar from './components/bars/TopBar'
 import NavBar from './components/bars/NavBar'
 import Footer from './components/bars/Footer'
 import Home from './components/Home'
-import { Routes, Route, Navigate } from 'react-router'
+import { Routes, Route, useNavigate } from 'react-router'
 import Contact from './components/Contact'
 import Appointement from './components/appointments/Appointement'
 import Team from './components/Team'
@@ -14,12 +14,14 @@ import { GlobalContext } from './components/context/GlobalContext'
 import { useEffect, useState } from 'react'
 import usePersistedState from './components/hooks/usePersistedState'
 import InfoMessage from './components/misc/InfoMessage'
+import PrivateAppointements from './components/appointments/PrivateAppointements'
 
 export default function App() {
 
     const [openLoginForm, setOpenLoginForm] = useState(false)    
     const [authorizedUser, setAuthorizedUser] = usePersistedState('authotization', null)
     const [openInfoPopup, setOpenInfoPopup] = useState(null)
+    const navigate = useNavigate()
 
     const LoginCheck = useEffect(() => {
         if (!authorizedUser)
@@ -44,6 +46,11 @@ export default function App() {
                 console.log(error.message)
             });
     }, [])
+
+    const LogoutCheck = useEffect(() => {
+        if (!authorizedUser)
+            navigate("/")
+    }, [authorizedUser])
 
     return (
         <>
