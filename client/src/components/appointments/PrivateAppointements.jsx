@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router"
+import { Link, useNavigate, useParams } from "react-router"
 import Hero from "../bars/HeroBar"
 import { GlobalContext } from "../context/GlobalContext"
 import { useContext, useEffect, useState } from "react"
@@ -11,13 +11,23 @@ export default function PrivateAppointements() {
     const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
     const [openInfoPopup, setOpenInfoPopup] = useContext(GlobalContext)[2]
     const navigation = useNavigate()
+    const { page } = useParams()
     const [isPending, setIsPending] = useState(true)
     const [members, setMembers] = useState([])
     const [appointments, setAppointments] = useState([])
     const [count, setCount] = useState(0)
     const [order, setOrder] = useState(false)
-    const [offSet, setOffSet] = useState(0)
-    let pageSize = 4
+    const pageSize = 4
+    let t = 0
+    if (page !== undefined) {
+        try {
+            if (page > 1)
+                t = (page - 1) * pageSize
+        } catch {
+            //nothing
+        }
+    }
+    const [offSet, setOffSet] = useState(t)
 
     const onLoad = useEffect(() => {
         if (!authorizedUser && !openLoginForm) {
@@ -44,11 +54,17 @@ export default function PrivateAppointements() {
             .then(data => {
                 setCount(data)
 
+                //check total number of appointments 
                 if (data == 0) {
                     setIsPending(false)
                     setOpenInfoPopup("You don't have appointements")
                     return
                 }
+
+                //check last page
+                let maxPages = Math.ceil(data / pageSize)
+                if (offSet / pageSize > Math.ceil(data / pageSize) - 1)
+                    setOffSet((maxPages - 1) * pageSize)
             })
             .catch(error => {
                 console.log(error.message)
@@ -61,11 +77,14 @@ export default function PrivateAppointements() {
     }, [order, offSet, count])
 
     const LoadMore = () => {
-        console.log("2:" + count)
         if (count <= 0) {
             setIsPending(false)
             return
         }
+
+        //calcul the current page
+        let p = (offSet / pageSize) + 1
+        navigation("/myappointments" + (p <= 1 ? "" : "/" + p), { replace: true });
 
         fetch(`http://localhost:3030/data/appointments/?where=_ownerId%3D%22${authorizedUser._id}%22&sortBy=date%20${(order ? 'desc' : '')}%2Ctime%20${(order ? 'desc' : '')}&offset=${offSet}&pageSize=${pageSize}`)
             .then(response => response.json())
