@@ -7,7 +7,7 @@ export default function NavBar() {
     const location = useLocation()
     const [openLoginForm, setOpenLoginForm] = useContext(GlobalContext)[0]
     const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
-    const [showMenu, setSHowMenu] = useState(false)
+    const [showMenu, setShowMenu] = useState(false)
 
     const Logout = () => {
         setAuthorizedUser(null)
@@ -19,7 +19,7 @@ export default function NavBar() {
                 <Link to="/" className="navbar-brand p-0">
                     <h1 className="m-0 text-primary"><i className="fa fa-tooth me-2"></i>DentCare</h1>
                 </Link>
-                <button className={"navbar-toggler" + (showMenu ? " collapsed" : "")} type="button" onClick={() => { setSHowMenu(!showMenu) }}>
+                <button className={"navbar-toggler" + (showMenu ? " collapsed" : "")} type="button" onClick={() => { setShowMenu(!showMenu) }}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className={"collapse navbar-collapse" + (showMenu ? " show" : "")} id="navbarCollapse">
