@@ -1,7 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Hero from "./bars/HeroBar"
+import { GlobalContext } from "./context/GlobalContext";
 
 export default function Contact() {
+
+    const [openInfoPopup, setOpenInfoPopup] = useContext(GlobalContext)[2]
 
     const firstLoad = useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
@@ -42,20 +45,20 @@ export default function Contact() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-xl-4 col-lg-6">
+                        <div className="col-xl-4 col-lg-6" onClick={() => {setOpenInfoPopup("Contact form is disabled. This project is only for education purposes.")}}>
                             <form>
                                 <div className="row g-3">
                                     <div className="col-12">
-                                        <input type="text" className="form-control border-0 bg-light px-4" placeholder="Your Name" style={{ height: 55 + 'px' }} disabled />
+                                        <input type="text" className="form-control border-0 bg-light px-4" placeholder="Your Name" style={{ height: 55 + 'px' }} />
                                     </div>
                                     <div className="col-12">
-                                        <input type="email" className="form-control border-0 bg-light px-4" placeholder="Your Email" style={{ height: 55 + 'px' }} disabled />
+                                        <input type="email" className="form-control border-0 bg-light px-4" placeholder="Your Email" style={{ height: 55 + 'px' }} />
                                     </div>
                                     <div className="col-12">
-                                        <input type="text" className="form-control border-0 bg-light px-4" placeholder="Subject" style={{ height: 55 + 'px' }} disabled />
+                                        <input type="text" className="form-control border-0 bg-light px-4" placeholder="Subject" style={{ height: 55 + 'px' }} />
                                     </div>
                                     <div className="col-12">
-                                        <textarea className="form-control border-0 bg-light px-4 py-3" rows="5" placeholder="Message" disabled></textarea>
+                                        <textarea className="form-control border-0 bg-light px-4 py-3" rows="5" placeholder="Message" ></textarea>
                                     </div>
                                     <div className="col-12">
                                         <button className="btn btn-primary w-100 py-3" type="submit" disabled>Send Message</button>
