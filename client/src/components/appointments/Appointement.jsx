@@ -14,6 +14,10 @@ export default function Appointement() {
     const [openInfoPopup, setOpenInfoPopup] = useContext(GlobalContext)[2]
     const [isPending, setIsPending] = useState(true)
     const [members, setMembers] = useState([])
+    const [service, setService] = useState()
+    const [member, setMember] = useState()
+    const [date, setDate] = useState()
+    const [time, setTime] = useState()
 
     const onLoad = useEffect(() => {
 
@@ -36,11 +40,7 @@ export default function Appointement() {
     }, [])
 
     const makeAppointement = (appointmentForm) => {
-
-        let service = appointmentForm.get('service')
-        let member = appointmentForm.get('member')
-        let date = appointmentForm.get('date')
-        let time = appointmentForm.get('time')
+        appointmentForm.preventDefault()
 
         if (!isValidDate(date) ||
             !isValidTime(time) ||
@@ -95,10 +95,10 @@ export default function Appointement() {
                         <div className="col-lg-6">
                             <div className="appointment-form h-100 d-flex flex-column justify-content-center text-center p-5">
                                 <h1 className="text-white mb-4">Make Appointment</h1>
-                                <form id="appointmentForm" action={makeAppointement}>
+                                <form id="appointmentForm" onSubmit={makeAppointement}>
                                     <div className="row g-3">
                                         <div className="col-12 col-sm-6">
-                                            <select className="form-select bg-light border-0" style={{ height: 55 + 'px' }} id="service" name="service" defaultValue={params.type}>
+                                            <select className="form-select bg-light border-0" style={{ height: 55 + 'px' }} id="service" name="service" defaultValue={params.type} onChange={e => setService(e.target.value)}>
                                                 <option>Select A Service</option>
                                                 <option value="1">Teeth Whitening</option>
                                                 <option value="2">Dental Implant</option>
@@ -106,7 +106,7 @@ export default function Appointement() {
                                             </select>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <select className="form-select bg-light border-0" id="member" name="member" style={{ height: 55 + 'px' }}>
+                                            <select className="form-select bg-light border-0" id="member" name="member" style={{ height: 55 + 'px' }} onChange={e => setMember(e.target.value)}>
                                                 <option defaultValue>Select Doctor</option>
                                                 {members.map(member => <option value={member.id} key={member.id}>{member.name}</option>)}
                                             </select>
@@ -118,7 +118,9 @@ export default function Appointement() {
                                                     placeholder="Appointment Date"
                                                     id="date"
                                                     name="date"
-                                                    style={{ height: 55 + 'px' }} />
+                                                    style={{ height: 55 + 'px' }}
+                                                    onChange={e => setDate(e.target.value)}
+                                                    />
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
@@ -129,6 +131,7 @@ export default function Appointement() {
                                                     id="time"
                                                     name="time"
                                                     style={{ height: 55 + 'px' }}
+                                                    onChange={e => setTime(e.target.value)}
                                                 />
                                             </div>
                                         </div>
