@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router"
+import { Link, useNavigate } from "react-router"
 import Hero from "../bars/HeroBar"
 import { GlobalContext } from "../context/GlobalContext"
 import { useContext, useEffect, useState } from "react"
@@ -10,6 +10,7 @@ export default function PrivateAppointements() {
     const [openLoginForm, setOpenLoginForm] = useContext(GlobalContext)[0]
     const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
     const [openInfoPopup, setOpenInfoPopup] = useContext(GlobalContext)[2]
+    const navigation = useNavigate()
     const [isPending, setIsPending] = useState(true)
     const [members, setMembers] = useState([])
     const [appointments, setAppointments] = useState([])
@@ -42,20 +43,29 @@ export default function PrivateAppointements() {
             .then(response => response.json())
             .then(data => {
                 setCount(data)
+
+                if (data == 0) {
+                    setIsPending(false)
+                    setOpenInfoPopup("You don't have appointements")
+                    return
+                }
             })
             .catch(error => {
                 console.log(error.message)
-                setTimeout(() => { navigation("/") }, 1000)
             })
-
-        LoadMore()
     }, [])
 
     const changeOrder = useEffect(() => {
-        LoadMore()
-    }, [order, offSet])
+        if (count > 0)
+            LoadMore()
+    }, [order, offSet, count])
 
     const LoadMore = () => {
+        console.log("2:" + count)
+        if (count <= 0) {
+            setIsPending(false)
+            return
+        }
 
         fetch(`http://localhost:3030/data/appointments/?where=_ownerId%3D%22${authorizedUser._id}%22&sortBy=date%20${(order ? 'desc' : '')}%2Ctime%20${(order ? 'desc' : '')}&offset=${offSet}&pageSize=${pageSize}`)
             .then(response => response.json())
@@ -91,6 +101,9 @@ export default function PrivateAppointements() {
                             member={appointment.member}
                             date={appointment.date}
                             time={appointment.time}
+                            count={count}
+                            setCount={setCount}
+                            LoadMore={LoadMore}
                         />)}
                     </div>
                     <div className="col-lg-12" style={{
@@ -98,7 +111,7 @@ export default function PrivateAppointements() {
                         bottom: 0
                     }}>
                         <center>
-                            <Link to="#" className={"btn btn-primary py-2 px-4" + (offSet >= pageSize ? "" : " disabled")} style={{ width: "300px" }} onClick={() => setOffSet(offSet - pageSize)}>&#11207; Previous page</Link>
+                            <Link to="#" id="previousPage" className={"btn btn-primary py-2 px-4" + (offSet >= pageSize ? "" : " disabled")} style={{ width: "300px" }} onClick={() => setOffSet(offSet - pageSize)}>&#11207; Previous page</Link>
                             <Link to="#" className={"btn btn-primary py-2 px-4" + (offSet < count - pageSize ? "" : " disabled")} style={{ width: "300px" }} onClick={() => setOffSet(offSet + pageSize)}>Next page &#11208;</Link>
                         </center>
                     </div>
