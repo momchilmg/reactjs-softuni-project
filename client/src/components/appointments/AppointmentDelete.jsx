@@ -1,7 +1,5 @@
-import { useContext } from "react";
 import commentCSS from "../../css/Bio.module.css"
 import CommentButton from "./../comments/CommentButton"
-import { GlobalContext } from "../context/GlobalContext";
 
 export default function AppointmentDelete({ setForDelete, deleteAppointement }) {
 

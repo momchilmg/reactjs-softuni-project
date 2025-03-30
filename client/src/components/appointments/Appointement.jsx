@@ -3,7 +3,7 @@ import Hero from "../bars/HeroBar"
 import { GlobalContext } from "../context/GlobalContext"
 import { useContext, useEffect, useState } from "react"
 import Spinner from "../Spinner";
-import { isValidDate, isValidTime, isFutureDateTime } from "./Validating"
+import { isValidDate, isValidTime, isFutureDateTime } from "../misc/Validating"
 
 export default function Appointement() {
 

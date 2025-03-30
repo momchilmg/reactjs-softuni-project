@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import { GlobalContext } from "../context/GlobalContext"
-import { isValidDate, isValidTime, isFutureDateTime } from "./Validating"
+import { isValidDate, isValidTime, isFutureDateTime } from "../misc/Validating"
 import AppointmentDelete from "./AppointmentDelete"
 
 export default function OneAppointment(props) {
