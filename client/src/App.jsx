@@ -62,9 +62,8 @@ export default function App() {
                 <Routes>
                     <Route index element={<Home />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/appointment" element={<Appointement />} />
-                    <Route path="/appointment/:type" element={<Appointement />} />
-                    <Route path="/myappointments" element={(authorizedUser ? <PrivateAppointements /> : <Home />)} />
+                    <Route path="/appointment/:type?" element={<Appointement />} />
+                    <Route path="/myappointments/:page?" element={(authorizedUser ? <PrivateAppointements /> : <Home />)} />
                     <Route path="/team" element={<Team />} />
                     <Route path="/team/:id" element={<TeamMemberDetails />} />
                     <Route path="/about" element={<About />} />
