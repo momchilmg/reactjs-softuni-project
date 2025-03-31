@@ -69,6 +69,8 @@ export default function PrivateAppointements() {
     const changeOrder = useEffect(() => {
         if (count > 0)
             LoadMore()
+        else
+            setAppointments([])
     }, [order, offSet, count])
 
     const LoadMore = () => {
