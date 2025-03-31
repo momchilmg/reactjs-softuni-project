@@ -1772,6 +1772,8 @@
 		        "_createdOn": 1743074162331,
 		        "_id": "5b62448e-d0f7-470a-a710-d27b14611a70"
 		    }
+		],
+		appointments: [
 		]
     };
     var rules$1 = {
