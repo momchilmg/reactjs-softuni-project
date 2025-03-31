@@ -9,28 +9,26 @@ The DentCare website is designed for dental clinics, dentists, labs, and similar
 
 -   **Appointments:** A prominent modal appointment form with date and time pickers allows patients to schedule visits easily. The ability for users to edit and remove appointments.
 -   **Services/Offerings:** Although specific services aren't listed in the description, the template is built for dental practices, implying sections to detail various dental services offered. It includes a **Pricing Table** feature to clearly display costs.
--   **Quotes:** A dedicated "free quote form" is included.
--   **Credibility:** A **Testimonials** section (often using a carousel) is available to display patient reviews.
--   **Information:** It includes a **Blog Section** for sharing news or articles and standard elements like a **Hero Header** (often with a slider for key messages).
+-   **Credibility:** A **Comments** section is available to display patient reviews.
 -   **Contact/Location:** Features like a **UI Contact Form**, **Google Maps integration**, and **Footer Widgets** help provide contact details and location information.
 -   **Calls to Action:** Includes elements like "Call to Action" buttons and an "Email Subscription" widget.
 -   **User Action:** Patient profile registration and editing.
 
-Essentially, the website provides the structure for a clinic to present its services, allow online booking, display pricing and testimonials, and share contact information.
+Essentially, the website provides the structure for a clinic to present its services, allow online booking, display pricing and comments, and share contact information.
 
 ## Others
 
-Original HTML template is here: [HERE](https://www.free-css.com/free-css-templates/page287/dentcare)
+Original HTML template is here: [HERE](https://www.free-css.com/free-css-templates/page287/dentcare){:target="_blank"}
 
 During the development, I modified the original SoftUni Practice Server to implement a users update functionality and to fix a usage of X-Admin header without identification.
 
 ## Requirements
 
-NodeJS: 23.8.0
-Vite: 6.2.0
-ReactJS: 19.0.0
-React-Dom: 19.0.0
-React-Router: 7.4.0
+NodeJS: 23.8.0  
+Vite: 6.2.0  
+ReactJS: 19.0.0  
+React-Dom: 19.0.0  
+React-Router: 7.4.0  
 
 ## Install
 
