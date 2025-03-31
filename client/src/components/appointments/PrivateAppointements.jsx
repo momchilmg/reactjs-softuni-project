@@ -30,11 +30,6 @@ export default function PrivateAppointements() {
     const [offSet, setOffSet] = useState(t)
 
     const onLoad = useEffect(() => {
-        if (!authorizedUser && !openLoginForm) {
-            setIsPending(false)
-            setOpenLoginForm(true)
-            return
-        }
 
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
 
