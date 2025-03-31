@@ -424,6 +424,7 @@
     const userService = new Service_1();
 
     userService.get('me', getSelf);
+    userService.patch('me', onUpdate);
     userService.post('register', onRegister);
     userService.post('login', onLogin);
     userService.get('logout', onLogout);
@@ -437,6 +438,10 @@
         } else {
             throw new AuthorizationError$1();
         }
+    }
+	
+	function onUpdate(context, tokens, query, body) {
+        return context.auth.update(body);
     }
 
     function onRegister(context, tokens, query, body) {
@@ -1075,6 +1080,7 @@
         return function decorateContext(context, request) {
             context.auth = {
                 register,
+				update,
                 login,
                 logout
             };
@@ -1126,6 +1132,24 @@
                     return result;
                 }
             }
+			
+			function update(body) {
+				if (body.hasOwnProperty('_id') || body.hasOwnProperty('_createdOn') ||
+					body.hasOwnProperty('_updatedOn') || body.hasOwnProperty('password') ||
+					body.hasOwnProperty('hashedPassword')) {
+					throw new RequestError$2('System fields');
+				} else if (context.user !== undefined) {
+                    const session = findSessionByUserId(context.user._id);
+                    if (session === undefined) {
+						throw new RequestError$2('Missing fields');
+					} else {
+						const result = context.protectedStorage.merge('users', context.user._id, body);						
+						return result;
+					}
+				} else {
+					throw new CredentialError$1('User session does not exist');
+                }
+			}
 
             function login(body) {
                 const targetUser = context.protectedStorage.query('users', { [identity]: body[identity] });
