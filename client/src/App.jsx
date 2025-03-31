@@ -2,7 +2,7 @@ import TopBar from './components/bars/TopBar'
 import NavBar from './components/bars/NavBar'
 import Footer from './components/bars/Footer'
 import Home from './components/Home'
-import { Routes, Route, useNavigate } from 'react-router'
+import { Routes, Route, useNavigate, Navigate } from 'react-router'
 import Contact from './components/Contact'
 import Appointement from './components/appointments/Appointement'
 import Team from './components/Team'
@@ -15,10 +15,11 @@ import { useEffect, useState } from 'react'
 import usePersistedState from './components/hooks/usePersistedState'
 import InfoMessage from './components/misc/InfoMessage'
 import PrivateAppointements from './components/appointments/PrivateAppointements'
+import Register from './components/login/Register'
 
 export default function App() {
 
-    const [openLoginForm, setOpenLoginForm] = useState(false)    
+    const [openLoginForm, setOpenLoginForm] = useState(false)
     const [authorizedUser, setAuthorizedUser] = usePersistedState('authotization', null)
     const [openInfoPopup, setOpenInfoPopup] = useState(null)
     const navigate = useNavigate()
@@ -26,7 +27,7 @@ export default function App() {
     const LoginCheck = useEffect(() => {
         if (!authorizedUser)
             return
-        
+
         const options = {
             method: 'GET',
             headers: {
@@ -63,11 +64,13 @@ export default function App() {
                     <Route index element={<Home />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/appointment/:type?" element={<Appointement />} />
-                    <Route path="/myappointments/:page?" element={(authorizedUser ? <PrivateAppointements /> : <Home />)} />
+                    <Route path="/myappointments/:page?" element={(authorizedUser ? <PrivateAppointements /> : <Navigate to="/" />)} />
                     <Route path="/team" element={<Team />} />
                     <Route path="/team/:id" element={<TeamMemberDetails />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/service" element={<Service />} />
+                    <Route path="/register" element={(authorizedUser ? <Navigate to="/" /> : <Register type="register" />)} />
+                    <Route path="/profile" element={(authorizedUser ? <Register type="profile" /> : <Navigate to="/" />)} />
                 </Routes>
                 <Footer />
             </GlobalContext.Provider>

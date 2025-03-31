@@ -32,7 +32,8 @@ export default function NavBar() {
                     </div>
                     <Link to="/appointment" className="btn btn-primary py-2 px-4 ms-3">Make Appointment</Link>
                     {(authorizedUser && <Link to="/myappointments" className="btn btn-primary py-2 px-4 ms-3">Your Appointments</Link>)}
-                    <Link to={(authorizedUser ? '/' : '#')} className="btn btn-primary py-2 px-4 ms-3" onClick={() => { (authorizedUser ? Logout() : setOpenLoginForm(true)) }}>{(authorizedUser ? 'Logout' : 'Login')}</Link>
+                    <Link to={(authorizedUser ? '/profile' : '/register')} className="btn btn-primary py-2 px-4 ms-3">{(authorizedUser ? 'Profile' : 'Register')}</Link>
+                    <Link to={(authorizedUser ? '/' : '#')} className="btn btn-primary py-2 px-4 ms-3" onClick={() => { (authorizedUser ? Logout() : setOpenLoginForm(true)) }}>{(authorizedUser ? 'LogOut' : 'LogIn')}</Link>
                 </div>
             </nav>
         </>
