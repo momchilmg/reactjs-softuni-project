@@ -18,7 +18,7 @@ Essentially, the website provides the structure for a clinic to present its serv
 
 ## Others
 
-Original HTML template is here: [HERE](https://www.free-css.com/free-css-templates/page287/dentcare){:target="_blank"}
+Original HTML template is here: [HERE](https://www.free-css.com/free-css-templates/page287/dentcare)
 
 During the development, I modified the original SoftUni Practice Server to implement a users update functionality and to fix a usage of X-Admin header without identification.
 
