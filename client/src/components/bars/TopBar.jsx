@@ -1,4 +1,10 @@
+import { GlobalContext } from '../context/GlobalContext';
+import { useContext } from 'react';
+
 export default function TopBar() {
+
+    const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
+
     return (
         <>
         { /* <!-- Topbar Start --> */ }
@@ -10,6 +16,7 @@ export default function TopBar() {
                 </div>
             </div>
             <div className="col-md-6 text-center text-lg-end">
+                {authorizedUser && <div className="position-relative d-inline-flex align-items-center px-5">Hello, {authorizedUser.username}!</div>}
                 <div className="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
                     <div className="me-3 pe-3 border-end py-2">
                         <p className="m-0"><i className="fa fa-envelope-open me-2"></i>info@example.com</p>
