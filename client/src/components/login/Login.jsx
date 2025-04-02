@@ -8,6 +8,7 @@ export default function Login() {
 
     const [openLoginForm, setOpenLoginForm] = useContext(GlobalContext)[0]
     const [authorizedUser, setAuthorizedUser] = useContext(GlobalContext)[1]
+    const [openInfoPopup, setOpenInfoPopup] = useContext(GlobalContext)[2]
     const path = useResolvedPath().pathname
     const navigate = useNavigate()
 
@@ -31,8 +32,10 @@ export default function Login() {
         fetch(`http://localhost:3030/users/login/`, options)
             .then(response => response.json())
             .then(data => {
-                if (data.code !== undefined)
+                if (data.code !== undefined) {
+                    setOpenInfoPopup("Email or password incorrect.<br>Please, try again!")
                     return
+                }
 
                 setAuthorizedUser(data)
                 setOpenLoginForm(false)
