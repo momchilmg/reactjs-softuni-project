@@ -52,7 +52,7 @@ export default function PrivateAppointements() {
                 //check total number of appointments 
                 if (data == 0) {
                     setIsPending(false)
-                    setOpenInfoPopup("You don't have appointements")
+                    setOpenInfoPopup("You don't have appointments")
                     return
                 }
 
