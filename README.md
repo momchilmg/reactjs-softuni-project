@@ -34,6 +34,13 @@ React-Router: 7.4.0
 
 Install dependencies in /client directory via **npm install** and then run a development web server with **npm run dev**. You must to run a server.js from /server directory via **node server.js** command.
 
+## Authentication
+
+The service is initialized with two users, which can be used for immediate testing:
+
+peter@abv.bg : 123456  
+george@abv.bg : 123456  
+
 ## Flow chart
 
 ```mermaid
