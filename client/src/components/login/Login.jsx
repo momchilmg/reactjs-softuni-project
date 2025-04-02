@@ -37,8 +37,8 @@ export default function Login() {
                     setOpenInfoPopup("Email or password incorrect.<br>Please, try again!")
                     return
                 }
-
-                setAuthorizedUser(data)
+                
+                setAuthorizedUser(JSON.parse(decodeURIComponent(JSON.stringify(data))))
                 setOpenLoginForm(false)
             })
             .catch(error => {
