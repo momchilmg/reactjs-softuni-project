@@ -9,6 +9,7 @@ import { CommentsContext, NewSetCommentContext } from "../comments/CommentsConte
 import CommentButton from "../comments/CommentButton";
 import CommentNew from "../comments/CommentNew";
 import { GlobalContext } from "../context/GlobalContext";
+import { apiURL } from "../misc/Global"
 
 export default function TeamMemberDetails() {
     const [isPending, setIsPending] = useState(true)
@@ -29,7 +30,7 @@ export default function TeamMemberDetails() {
 
     useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
-        fetch(`http://localhost:3030/data/members/?where=id%3D${id}`)
+        fetch(apiURL() + `/data/members/?where=id%3D${id}`)
         .then(response => response.json())
         .then(data => {
             if (data.length == 0) {
@@ -66,7 +67,7 @@ export default function TeamMemberDetails() {
 
     function loadComments() {
         setHaveNoMore(true)
-        fetch(`http://localhost:3030/data/comments/?where=` + encodeURIComponent("memberId=" + id) + (commentsWhereLastCreated || "") + `&offset=${fromComment}&pageSize=${pageSize}&sortBy=_createdOn%20desc`)
+        fetch(apiURL() + `/data/comments/?where=` + encodeURIComponent("memberId=" + id) + (commentsWhereLastCreated || "") + `&offset=${fromComment}&pageSize=${pageSize}&sortBy=_createdOn%20desc`)
         .then(response => response.json())
         .then(data => {          
             if (data.length == 0) {

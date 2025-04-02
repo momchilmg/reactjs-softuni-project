@@ -4,6 +4,7 @@ import CommentEditArea from "./CommentEditArea";
 import { useContext, useEffect, useState } from "react";
 import { CommentsContext, NewSetCommentContext } from "./CommentsContext";
 import { GlobalContext } from "../context/GlobalContext";
+import { apiURL } from "../misc/Global"
 
 export default function CommentNew() {
     const [comments, setComments] = useContext(CommentsContext)
@@ -34,7 +35,7 @@ export default function CommentNew() {
             setNew(false)
             return
         }
-        fetch(`http://localhost:3030/data/comments/`, options)
+        fetch(apiURL() + `/data/comments/`, options)
             .then(response => response.json())
             .then(data => {
                 if (data.code !== undefined)

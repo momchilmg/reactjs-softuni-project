@@ -3,6 +3,7 @@ import commentCSS from "../../css/Bio.module.css"
 import { CommentsContext } from "./CommentsContext";
 import CommentButton from "./CommentButton"
 import { GlobalContext } from "../context/GlobalContext";
+import { apiURL } from "../misc/Global"
 
 export default function CommentDelete({ setDeletePopup, id }) {
 
@@ -18,7 +19,7 @@ export default function CommentDelete({ setDeletePopup, id }) {
     }
     
     function Delete() {
-        fetch(`http://localhost:3030/data/comments/${id}`, options)
+        fetch(apiURL() + `/data/comments/${id}`, options)
         .then(response => response.json())
         .then(data => {     
             if(data._deletedOn != undefined)

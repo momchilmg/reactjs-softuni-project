@@ -4,6 +4,7 @@ import { isValidEmail } from "../misc/Validating"
 import Hero from "../bars/HeroBar";
 import { useEffect, useState, useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext"
+import { apiURL } from "../misc/Global"
 
 export default function Register(props) {
 
@@ -74,7 +75,7 @@ export default function Register(props) {
             }
         }
 
-        fetch(`http://localhost:3030/users/` + (props.type === "register" ? 'register' : 'me'), options)
+        fetch(apiURL() + `/users/` + (props.type === "register" ? 'register' : 'me'), options)
             .then(response => response.json())
             .then(data => {
                 console.log(data)

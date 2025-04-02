@@ -4,6 +4,7 @@ import { GlobalContext } from "../context/GlobalContext"
 import { useContext, useEffect, useState } from "react"
 import Spinner from "../Spinner";
 import OneAppointment from "./OneAppointement";
+import { apiURL } from "../misc/Global"
 
 export default function PrivateAppointements() {
 
@@ -33,7 +34,7 @@ export default function PrivateAppointements() {
 
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
 
-        fetch('http://localhost:3030/data/members')
+        fetch(apiURL() + `/data/members`)
             .then(response => response.json())
             .then(data => {
                 const result = Object.values(data)
@@ -44,7 +45,7 @@ export default function PrivateAppointements() {
                 setTimeout(() => { navigation("/") }, 1000)
             })
 
-        fetch(`http://localhost:3030/data/appointments/?where=_ownerId%3D%22${authorizedUser._id}%22&count=1`)
+        fetch(apiURL() + `/data/appointments/?where=_ownerId%3D%22${authorizedUser._id}%22&count=1`)
             .then(response => response.json())
             .then(data => {
                 setCount(data)
@@ -83,7 +84,7 @@ export default function PrivateAppointements() {
         let p = (offSet / pageSize) + 1
         navigation("/myappointments" + (p <= 1 ? "" : "/" + p), { replace: true });
 
-        fetch(`http://localhost:3030/data/appointments/?where=_ownerId%3D%22${authorizedUser._id}%22&sortBy=date%20${(order ? 'desc' : '')}%2Ctime%20${(order ? 'desc' : '')}&offset=${offSet}&pageSize=${pageSize}`)
+        fetch(apiURL() + `/data/appointments/?where=_ownerId%3D%22${authorizedUser._id}%22&sortBy=date%20${(order ? 'desc' : '')}%2Ctime%20${(order ? 'desc' : '')}&offset=${offSet}&pageSize=${pageSize}`)
             .then(response => response.json())
             .then(data => {
                 setAppointments([...data])

@@ -5,6 +5,7 @@ import CommentEditArea from "./CommentEditArea"
 import { CommentsContext } from "./CommentsContext"
 import CommentButton from "./CommentButton"
 import { GlobalContext } from "../context/GlobalContext"
+import { apiURL } from "../misc/Global"
 
 export default function Comment(props) {
     const [openDeletePopup, setDeletePopup] = useState(false)
@@ -37,7 +38,7 @@ export default function Comment(props) {
             setEdit(false)
             return
         }
-        fetch(`http://localhost:3030/data/comments/${props.id}`, options)
+        fetch(apiURL() + `/data/comments/${props.id}`, options)
             .then(response => response.json())
             .then(data => {
                 comments.filter(comment => comment._id === props.id)[0].text = commentText

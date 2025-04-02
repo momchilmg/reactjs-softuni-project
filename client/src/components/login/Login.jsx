@@ -3,6 +3,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useContext } from "react";
 import { useNavigate, useResolvedPath } from "react-router";
 import { isValidEmail } from "../misc/Validating"
+import { apiURL } from "../misc/Global"
 
 export default function Login() {
 
@@ -29,7 +30,7 @@ export default function Login() {
             })
         }
 
-        fetch(`http://localhost:3030/users/login/`, options)
+        fetch(apiURL() + `/users/login/`, options)
             .then(response => response.json())
             .then(data => {
                 if (data.code !== undefined) {

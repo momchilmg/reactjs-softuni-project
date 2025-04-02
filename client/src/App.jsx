@@ -16,6 +16,7 @@ import usePersistedState from './components/hooks/usePersistedState'
 import InfoMessage from './components/misc/InfoMessage'
 import PrivateAppointements from './components/appointments/PrivateAppointements'
 import Register from './components/login/Register'
+import { apiURL } from "./components/misc/Global"
 
 export default function App() {
 
@@ -37,7 +38,7 @@ export default function App() {
             }
         }
 
-        fetch(`http://localhost:3030/users/me/`, options)
+        fetch(apiURL() + `/users/me/`, options)
             .then(response => response.json())
             .then(data => {
                 if (data._id === authorizedUser._id)

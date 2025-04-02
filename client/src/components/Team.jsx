@@ -4,6 +4,7 @@ import TeamMember from "./members/TeamMember"
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router";
+import { apiURL } from "./misc/Global"
 
 export default function Team() {
     const [isPending, setIsPending] = useState(true)
@@ -12,7 +13,7 @@ export default function Team() {
 
     const firstLoad = useEffect(() => {
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
-        fetch('http://localhost:3030/data/members')
+        fetch(apiURL() + `/data/members`)
             .then(response => response.json())
             .then(data => {
                 const result = Object.values(data)

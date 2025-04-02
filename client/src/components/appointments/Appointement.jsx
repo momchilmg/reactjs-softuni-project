@@ -4,6 +4,7 @@ import { GlobalContext } from "../context/GlobalContext"
 import { useContext, useEffect, useState } from "react"
 import Spinner from "../Spinner";
 import { isValidDate, isValidTime, isFutureDateTime } from "../misc/Validating"
+import { apiURL } from "../misc/Global"
 
 export default function Appointement() {
 
@@ -25,7 +26,7 @@ export default function Appointement() {
             setOpenLoginForm(true)
         document.getElementsByClassName("baseHeroBar")[0].scrollIntoView()
 
-        fetch('http://localhost:3030/data/members')
+        fetch(apiURL() + `/data/members`)
             .then(response => response.json())
             .then(data => {
                 const result = Object.values(data)
@@ -67,7 +68,7 @@ export default function Appointement() {
             })
         }
 
-        fetch(`http://localhost:3030/data/appointments/`, options)
+        fetch(apiURL() + `/data/appointments/`, options)
             .then(response => response.json())
             .then(data => {
                 if (data.code !== undefined)

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react"
 import { GlobalContext } from "../context/GlobalContext"
 import { isValidDate, isValidTime, isFutureDateTime } from "../misc/Validating"
+import { apiURL } from "../misc/Global"
 import AppointmentDelete from "./AppointmentDelete"
 
 export default function OneAppointment(props) {
@@ -41,7 +42,7 @@ export default function OneAppointment(props) {
             })
         }
 
-        fetch(`http://localhost:3030/data/appointments/` + props.id, options)
+        fetch(apiURL() + `/data/appointments/` + props.id, options)
             .then(response => response.json())
             .then(data => {
                 if (data.code !== undefined)
@@ -64,7 +65,7 @@ export default function OneAppointment(props) {
             }
         }
 
-        fetch(`http://localhost:3030/data/appointments/` + props.id, options)
+        fetch(apiURL() + `/data/appointments/` + props.id, options)
             .then(response => response.json())
             .then(data => {
                 if (data.code !== undefined)
