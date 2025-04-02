@@ -18,7 +18,7 @@ export default function InfoMessage() {
                     left: 0,
                     top: 0,
                     backgroundColor: "rgba(9, 30, 62, .85)",
-                    zIndex: 2,
+                    zIndex: 3,
                     margin: 0,
                     backdropFilter: "blur(3px)"
                 }}
