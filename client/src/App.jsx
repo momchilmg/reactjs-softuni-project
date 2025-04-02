@@ -2,7 +2,7 @@ import TopBar from './components/bars/TopBar'
 import NavBar from './components/bars/NavBar'
 import Footer from './components/bars/Footer'
 import Home from './components/Home'
-import { Routes, Route, useNavigate, Navigate } from 'react-router'
+import { Routes, Route, useNavigate, Navigate, useResolvedPath } from 'react-router'
 import Contact from './components/Contact'
 import Appointement from './components/appointments/Appointement'
 import Team from './components/Team'
@@ -23,6 +23,7 @@ export default function App() {
     const [authorizedUser, setAuthorizedUser] = usePersistedState('authotization', null)
     const [openInfoPopup, setOpenInfoPopup] = useState(null)
     const navigate = useNavigate()
+    const path = useResolvedPath().pathname
 
     const LoginCheck = useEffect(() => {
         if (!authorizedUser)
@@ -49,7 +50,7 @@ export default function App() {
     }, [])
 
     const LogoutCheck = useEffect(() => {
-        if (!authorizedUser)
+        if (!authorizedUser && (path.startsWith('/myappointments') || path.startsWith('/profile')))
             navigate("/")
     }, [authorizedUser])
 
