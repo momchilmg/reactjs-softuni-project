@@ -15,7 +15,7 @@ export default function Appointement() {
     const [openInfoPopup, setOpenInfoPopup] = useContext(GlobalContext)[2]
     const [isPending, setIsPending] = useState(true)
     const [members, setMembers] = useState([])
-    const [service, setService] = useState()
+    const [service, setService] = useState(params.type ? params.type : '')
     const [member, setMember] = useState()
     const [date, setDate] = useState()
     const [time, setTime] = useState()
