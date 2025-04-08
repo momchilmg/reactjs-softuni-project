@@ -16,8 +16,10 @@ export default function Login() {
     const submitAction = (formData) => {
         let email = formData.get('email').trim()
         let password = formData.get('password').trim()
-        if (isValidEmail(email) === false || password === '')
+        if (isValidEmail(email) === false || password === '') {
+            setOpenInfoPopup("Email or password incorrect.<br>Please, try again!")
             return
+        }
 
         const options = {
             method: 'POST',
